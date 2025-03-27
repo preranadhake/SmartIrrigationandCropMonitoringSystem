@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="dashboard-container">
+    <h1>Welcome to Smart Farming Dashboard</h1>
+
+    <div class="dashboard">
+        <!-- Temperature Board -->
+        <div class="board temperature-board" id="temperatureBoard"> 
+            <h2>Temperature</h2>
+            <p id="temperatureValue">-- °C</p>
+        </div>
+
+        <!-- Humidity Meter -->
+        <div class="board humidity-board">
+            <h2>Humidity</h2>
+            <div class="humidity-meter" id="humidityMeter">
+                <div class="inner-circle" id="humidityValue">0%</div>
+            </div>
+        </div>
+
+        <!-- Soil Moisture Board -->
+        <div class="board soil-board">
+            <h2>Soil Moisture</h2>
+            <p id="soilMoistureValue">-- %</p>
+            <div id="pumpStatus" class="pump-status pump-off">Pump OFF</div>
+        </div>
+
+        <!-- Motion Detection Alert Board -->
+        <div class="alert-board alert-off" id="motionAlertBoard">
+            <h2>Motion Detection</h2>
+            <p id="motionStatus">No Theft Detected</p>
+        </div>
+    </div>
+
+    <script>
+        // Update Temperature
+        function updateTemperature(temp) {
+            document.getElementById('temperatureValue').textContent = `${temp} °C`;
+        }
+
+        // Update Humidity
+        function updateHumidity(humidity) {
+            const meter = document.getElementById('humidityMeter');
+            const valueDisplay = document.getElementById('humidityValue');
+            humidity = Math.max(0, Math.min(100, humidity));
+            meter.style.background = `conic-gradient(#4caf50 0% ${humidity}%, #ddd ${humidity}% 100%)`;
+            valueDisplay.textContent = `${humidity}%`;
+        }
+
+        // Update Soil Moisture and Pump Status
+        function updateSoilMoisture(moisture, pumpStatus) {
+            document.getElementById('soilMoistureValue').textContent = `${moisture} %`;
+            const pumpStatusDiv = document.getElementById('pumpStatus');
+            if (pumpStatus === "ON") {
+                pumpStatusDiv.textContent = "Pump ON";
+                pumpStatusDiv.classList.remove("pump-off");
+                pumpStatusDiv.classList.add("pump-on");
+            } else {
+                pumpStatusDiv.textContent = "Pump OFF";
+                pumpStatusDiv.classList.remove("pump-on");
+                pumpStatusDiv.classList.add("pump-off");
+            }
+        }
+
+        // Update Motion Detection Alert
+        function updateMotionStatus(motionDetected) {
+            const motionAlertBoard = document.getElementById('motionAlertBoard');
+            const motionStatus = document.getElementById('motionStatus');
+            if (motionDetected) {
+                motionStatus.textContent = "Theft Detected!";
+                motionAlertBoard.classList.remove("alert-off");
+                motionAlertBoard.classList.add("alert-on");
+            } else {
+                motionStatus.textContent = "No Theft Detected";
+                motionAlertBoard.classList.remove("alert-on");
+                motionAlertBoard.classList.add("alert-off");
+            }
+        }
+
+
+        async function fetchDataAndUpdateCharts() {
+            const response = await fetch("{% url 'get_data_for_dashboard' %}");
+            const data = await response.json();
+
+
+
+            const randomTemp = data.temperature;
+            const randomHumidity = data.humidity;
+            const randomSoilMoisture = data.soil_moisture;
+            const pumpStatus = data.pump_status;
+            const motionDetected = data.motion;
+
+            updateTemperature(randomTemp);
+            updateHumidity(randomHumidity);
+            updateSoilMoisture(randomSoilMoisture, pumpStatus);
+            updateMotionStatus(motionDetected);
+
+
+        }
+        setInterval(fetchDataAndUpdateCharts, 3000);
+    </script>
+
+</div>
+
+{% endblock %}

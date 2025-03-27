@@ -1,0 +1,52 @@
+{% extends "base.html" %} 
+{% block content %}
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="card-title text-primary mb-4 prediction-title text-center">Prediction Result</h2>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        {% if error %}
+                            <div class="alert alert-danger">
+                                <p class="fs-4">{{ error }}</p>
+                            </div>
+                            <a href="{% url 'upload' %}" class="btn btn-warning mt-3">Choose Another Image</a>
+                        {% else %}
+                            <!-- Confidence Message -->
+                            {% if confidence_message %}
+                                <div class="alert alert-warning">
+                                    <p class="fs-5" style="color: red;">{{ confidence_message }}</p>
+                                </div>
+                            {% endif %}
+
+                            <div class="result-section mb-4">
+                                <p class="fs-4">The predicted disease is: <strong>{{ prediction }}</strong></p>
+                                <p class="fs-5">Prediction Confidence: <strong>{{ probability|floatformat:2 }}</strong></p>
+                            </div>
+
+                            <!-- Remedies and pesticides -->
+                            <div class="result-section mb-4">
+                                <h5 class="text-secondary"><b>Remedies:</b></h5>
+                                <p>{{ remedies.remedies }}</p>
+
+                                <h5 class="text-secondary"><b>Recommended Pesticides:</b></h5>
+                                <p>{{ remedies.pesticides }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="result-section mb-4">
+                            <h5 class="text-secondary"><b>Uploaded Image:</b></h5>
+                            <div class="img-section">
+                                <img src="{{ image_url }}" alt="Uploaded Image" class="img-fluid rounded">
+                            </div>
+                        </div>
+                        <a href="{% url 'upload' %}" class="btn btn-primary mt-3">Upload Another Image</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

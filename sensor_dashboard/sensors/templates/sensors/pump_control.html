@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="container text-center">
+    <h1 class="my-5">Manual Pump Control</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button id="pump-on" class="btn btn-lg btn-success pump-btn" data-action="on">Turn Pump ON</button>
+        <button id="pump-off" class="btn btn-lg btn-danger pump-btn" data-action="off">Turn Pump OFF</button>
+    </form>
+</div>
+
+<script>
+    $('.pump-btn').click(function () {
+        event.preventDefault();
+        console.log("Button clicked");  
+        const action = $(this).data('action');
+        console.log("Action to send:", action);  
+        $.ajax({
+            url: '',
+            method: 'POST',
+            data: {
+                action: action,
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    alert('Pump turned ' + response.action.toUpperCase());
+                } else {
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function () {
+                alert('Failed to send the command. Please try again.');
+            }
+        });
+    });
+</script>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock content %}

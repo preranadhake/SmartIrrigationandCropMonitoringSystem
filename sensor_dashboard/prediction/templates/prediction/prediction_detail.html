@@ -1,0 +1,94 @@
+{% extends "base.html" %} 
+{% block content %}
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="card-title text-primary mb-4">{{ prediction.predicted_disease }}</h2>
+                <p class="fs-5 text-secondary"><b>Predicted on:</b> {{ prediction.timestamp|date:"F d, Y H:i" }}</p>
+                <h4 class="mt-4 text-success"><b>Remedies</b></h4>
+                <p>{{ prediction.remedy }}</p>
+
+                <h4 class="mt-4 text-success"><b>Recommended Pesticides</b></h4>
+                <p>{{ prediction.pesticides }}</p>
+
+                <a href="{% url 'upload' %}" class="btn btn-primary mt-3">Back to Upload Page</a>
+            </div>
+        </div>
+    </div>
+{% endblock %} 
+
+
+{% comment %} 
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h2 class="card-title text-primary mb-4">{{ prediction.predicted_disease }}</h2>
+                <p class="fs-5 text-secondary"><b>Predicted on:</b> {{ prediction.timestamp|date:"F d, Y H:i" }}</p>
+
+                <h4 class="mt-4 text-success"><b>Remedies</b></h4>
+                <p>{{ prediction.remedy }}</p>
+
+                <h4 class="mt-4 text-success"><b>Recommended Pesticides</b></h4>
+                <p>{{ prediction.pesticides }}</p>
+
+                <!-- User feedback section -->
+                <div class="feedback-section mt-4">
+                    <h5 class="text-secondary"><b>Was this prediction accurate?</b></h5>
+                    <form method="post" action="{% url 'feedback' prediction.id %}">
+                        {% csrf_token %}
+                        <div class="form-check">
+                            <input 
+                                class="form-check-input" 
+                                type="radio" 
+                                name="accuracy" 
+                                id="accurate" 
+                                value="True" 
+                                required>
+                            <label class="form-check-label" for="accurate">Yes</label>
+                        </div>
+                        <div class="form-check">
+                            <input 
+                                class="form-check-input" 
+                                type="radio" 
+                                name="accuracy" 
+                                id="inaccurate" 
+                                value="False" 
+                                required>
+                            <label class="form-check-label" for="inaccurate">No</label>
+                        </div>
+                        <button type="submit" class="btn btn-warning mt-3">Submit Feedback</button>
+                    </form>
+                </div>
+
+                <a href="{% url 'upload' %}" class="btn btn-primary mt-4">Back to Upload Page</a>
+            </div>
+        </div>
+
+        <!-- Recent predictions history -->
+        <div class="card shadow-lg mt-5">
+            <div class="card-body">
+                <h4 class="text-primary">Recent Prediction History</h4>
+                <ul class="list-group mt-3">
+                    {% for pred in recent_predictions %}
+                        <li class="list-group-item">
+                            <p class="mb-0"><b>Disease:</b> {{ pred.predicted_disease }}</p>
+                            <p class="mb-0"><b>Predicted on:</b> {{ pred.timestamp|date:"F d, Y H:i" }}</p>
+                            <p class="mb-0">
+                                <b>Accuracy:</b> 
+                                {% if pred.accuracy == True %}
+                                    <span class="text-success">Accurate</span>
+                                {% elif pred.accuracy == False %}
+                                    <span class="text-danger">Inaccurate</span>
+                                {% else %}
+                                    <span class="text-warning">Not Marked</span>
+                                {% endif %}
+                            </p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %} {% endcomment %}

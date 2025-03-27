@@ -1,0 +1,37 @@
+.navbar {
+    background-color: #004d00 !important; 
+    position: relative; 
+    top: 0;
+    width: 100%;
+    display: block; 
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+    color: #ffffff !important; 
+}
+
+.navbar .nav-link:hover {
+    color: #cce6cc !important; 
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7e9;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.navbar-nav {
+    flex-direction: row;
+}
+
+.navbar-nav .nav-item {
+    padding-right: 15px;
+}
+
+.container {
+    margin-top: 40px;
+}

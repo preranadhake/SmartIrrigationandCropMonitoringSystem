@@ -1,0 +1,114 @@
+ body {
+    font-family: Arial, sans-serif;
+    background-color: #e0f7e9;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 80%;
+    max-width: 1000px;
+    text-align: center;
+}
+
+
+.board,
+.alert-board {
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    border: 3px solid #4caf50;
+    transition: transform 0.2s;
+}
+
+.board:hover,
+.alert-board:hover {
+    transform: scale(1.05);
+}
+
+.temperature-board {
+    font-size: 1.5rem;
+    background-color: lightblue;
+    text-emphasis-color: black;
+    color: black  
+}
+#temperatureValue{ 
+    color:green;
+    font-size: 40px;
+    
+}
+
+.humidity-board {
+    display: flex;
+    flex-direction: column;
+    background-color: lightblue;
+    align-items: center;
+}
+
+.humidity-meter {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: conic-gradient(#4caf50 0% 0%, #ddd 0% 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: #333;
+    margin-top: 10px;
+}
+
+.inner-circle {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #4caf50;
+    border: 2px solid #4caf50;
+
+}
+
+
+.soil-board {
+    font-size: 1.5rem;
+    color: #4caf50;
+}
+
+.alert-board {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.alert-on {
+    background-color: #d9534f;
+}
+
+.alert-off {
+    background-color: #5cb85c;
+}
+
+.pump-status {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 5px;
+}
+
+.pump-on {
+    background-color: #4caf50;
+}
+
+.pump-off {
+    background-color: #d9534f;
+}
